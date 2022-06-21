@@ -28,6 +28,15 @@ body {
 }
 
 #screen {
+  display: -webkit-box;
+  display: -ms-flexbox;
+  display: flex;
+  -webkit-box-orient: vertical;
+  -webkit-box-direction: normal;
+      -ms-flex-direction: column;
+          flex-direction: column;
+  -ms-flex-pack: distribute;
+      justify-content: space-around;
   margin: 1.5em auto;
   border: 8px inset #4e4d53;
   width: 22em;
@@ -36,9 +45,17 @@ body {
 }
 
 #screen p {
-  font-size: 2.5rem;
-  float: right;
-  padding-right: 0.2em;
+  font-size: 2rem;
+  margin: -1em 0.5em -1em auto;
+  font-family: monospace;
+}
+
+#screen #store {
+  color: #696969;
+}
+
+#screen #operator {
+  color: #696969;
 }
 
 #buttons {

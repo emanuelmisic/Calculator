@@ -20,8 +20,12 @@ const commaBtn = document.querySelector("#comma");
 const equalsBtn = document.querySelector("#equals");
 
 const display = document.querySelector("#display");
+const store = document.querySelector("#store");
+const operator = document.querySelector("#operator");
 
 let operation = "";
+let storage;
+let result;
 
 num1Btn.onclick = () => typeNumber(1);
 num2Btn.onclick = () => typeNumber(2);
@@ -34,9 +38,19 @@ num8Btn.onclick = () => typeNumber(8);
 num9Btn.onclick = () => typeNumber(9);
 num0Btn.onclick = () => typeNumber(0);
 clearBtn.onclick = () => clearAll();
+deleteBtn.onclick = () => console.log("delete");
+equalsBtn.onclick = () => operate(storage, display.innerHTML, operation);
+addBtn.onclick = () => {
+  storeValue(display.innerHTML);
+  display.innerHTML = "0";
+  setOperation("+");
+};
 
 function clearAll() {
   display.innerHTML = "0";
+  operator.innerHTML = "";
+  store.innerHTML = "";
+  operation = "";
 }
 
 function typeNumber(num) {
@@ -46,16 +60,35 @@ function typeNumber(num) {
   display.innerHTML += num;
 }
 
+function storeValue(value) {
+  storage = value;
+  store.innerHTML = value;
+}
+
+function setOperation(value) {
+  operation = `${value}`;
+  operator.innerHTML = value;
+}
+
 function operate(a, b, operator) {
   switch (operator) {
     case "+":
-      a + b;
+      result = parseInt(a) + parseInt(b);
+      clearAll();
+      display.innerHTML = result;
+      break;
     case "-":
-      a - b;
+      result = parseInt(a) - parseInt(b);
+      display.innerHTML = result;
+      break;
     case "*":
-      a * b;
+      result = parseInt(a) * parseInt(b);
+      display.innerHTML = result;
+      break;
     case "/":
-      a / b;
+      result = parseInt(a) / parseInt(b);
+      display.innerHTML = result;
+      break;
     default:
       break;
   }
