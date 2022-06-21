@@ -20,3 +20,43 @@ const commaBtn = document.querySelector("#comma");
 const equalsBtn = document.querySelector("#equals");
 
 const display = document.querySelector("#display");
+
+let operation = "";
+
+num1Btn.onclick = () => typeNumber(1);
+num2Btn.onclick = () => typeNumber(2);
+num3Btn.onclick = () => typeNumber(3);
+num4Btn.onclick = () => typeNumber(4);
+num5Btn.onclick = () => typeNumber(5);
+num6Btn.onclick = () => typeNumber(6);
+num7Btn.onclick = () => typeNumber(7);
+num8Btn.onclick = () => typeNumber(8);
+num9Btn.onclick = () => typeNumber(9);
+num0Btn.onclick = () => typeNumber(0);
+clearBtn.onclick = () => clearAll();
+
+function clearAll() {
+  display.innerHTML = "0";
+}
+
+function typeNumber(num) {
+  if (display.innerHTML === "0") {
+    display.innerHTML = "";
+  }
+  display.innerHTML += num;
+}
+
+function operate(a, b, operator) {
+  switch (operator) {
+    case "+":
+      a + b;
+    case "-":
+      a - b;
+    case "*":
+      a * b;
+    case "/":
+      a / b;
+    default:
+      break;
+  }
+}
