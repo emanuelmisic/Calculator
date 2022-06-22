@@ -45,6 +45,22 @@ addBtn.onclick = () => {
   display.innerHTML = "0";
   setOperation("+");
 };
+subtractBtn.onclick = () => {
+  storeValue(display.innerHTML);
+  display.innerHTML = "0";
+  setOperation("-");
+};
+divideBtn.onclick = () => {
+  storeValue(display.innerHTML);
+  display.innerHTML = "0";
+  setOperation("/");
+};
+multiplyBtn.onclick = () => {
+  storeValue(display.innerHTML);
+  display.innerHTML = "0";
+  setOperation("*");
+};
+negativeBtn.onclick = () => negateNumber(display.innerHTML);
 
 function clearAll() {
   display.innerHTML = "0";
@@ -79,17 +95,24 @@ function operate(a, b, operator) {
       break;
     case "-":
       result = parseInt(a) - parseInt(b);
+      clearAll();
       display.innerHTML = result;
       break;
     case "*":
       result = parseInt(a) * parseInt(b);
+      clearAll();
       display.innerHTML = result;
       break;
     case "/":
       result = parseInt(a) / parseInt(b);
+      clearAll();
       display.innerHTML = result;
       break;
     default:
       break;
   }
+}
+
+function negateNumber(value) {
+  display.innerHTML = value * -1;
 }
