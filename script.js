@@ -38,7 +38,7 @@ num8Btn.onclick = () => typeNumber(8);
 num9Btn.onclick = () => typeNumber(9);
 num0Btn.onclick = () => typeNumber(0);
 clearBtn.onclick = () => clearAll();
-deleteBtn.onclick = () => console.log("delete");
+deleteBtn.onclick = () => deleteNumber(display.innerHTML);
 equalsBtn.onclick = () => operate(storage, display.innerHTML, operation);
 addBtn.onclick = () => {
   storeValue(display.innerHTML);
@@ -115,4 +115,11 @@ function operate(a, b, operator) {
 
 function negateNumber(value) {
   display.innerHTML = value * -1;
+}
+
+function deleteNumber(value) {
+  if (display.innerHTML == "0") return;
+  else if (display.innerHTML.length == 1 && display.innerHTML != "0")
+    display.innerHTML = "0";
+  else display.innerHTML = value.slice(0, value.length - 1);
 }
