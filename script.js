@@ -91,23 +91,23 @@ function setOperation(value) {
 function operate(a, b, operator) {
   switch (operator) {
     case "+":
-      result = parseInt(a) + parseInt(b);
+      result = parseFloat(a) + parseFloat(b);
       clearAll();
       display.innerHTML = result;
       break;
     case "-":
-      result = parseInt(a) - parseInt(b);
+      result = parseFloat(a) - parseFloat(b);
       clearAll();
       display.innerHTML = result;
       break;
     case "*":
-      result = parseInt(a) * parseInt(b);
+      result = parseFloat(a) * parseFloat(b);
       clearAll();
       display.innerHTML = result;
       break;
     case "/":
       if (b != 0) {
-        result = parseInt(a) / parseInt(b);
+        result = parseFloat(a) / parseFloat(b);
         clearAll();
         display.innerHTML = result;
       } else {
@@ -137,10 +137,10 @@ function squareNumber(value) {
 
 function addComma() {
   if (display.innerHTML == 0) {
-    display.innerHTML = "0,";
-  } else if (display.innerHTML.includes(",")) {
+    display.innerHTML = "0.";
+  } else if (display.innerHTML.includes(".")) {
     return;
   } else {
-    display.innerHTML += ",";
+    display.innerHTML += ".";
   }
 }
