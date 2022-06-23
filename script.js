@@ -61,6 +61,7 @@ multiplyBtn.onclick = () => {
   setOperation("*");
 };
 negativeBtn.onclick = () => negateNumber(display.innerHTML);
+squareBtn.onclick = () => squareNumber(display.innerHTML);
 
 function clearAll() {
   display.innerHTML = "0";
@@ -122,4 +123,8 @@ function deleteNumber(value) {
   else if (display.innerHTML.length == 1 && display.innerHTML != "0")
     display.innerHTML = "0";
   else display.innerHTML = value.slice(0, value.length - 1);
+}
+
+function squareNumber(value) {
+  display.innerHTML = parseInt(value * value);
 }
