@@ -62,6 +62,7 @@ multiplyBtn.onclick = () => {
 };
 negativeBtn.onclick = () => negateNumber(display.innerHTML);
 squareBtn.onclick = () => squareNumber(display.innerHTML);
+commaBtn.onclick = () => addComma();
 
 function clearAll() {
   display.innerHTML = "0";
@@ -132,4 +133,14 @@ function deleteNumber(value) {
 
 function squareNumber(value) {
   display.innerHTML = parseInt(value * value);
+}
+
+function addComma() {
+  if (display.innerHTML == 0) {
+    display.innerHTML = "0,";
+  } else if (display.innerHTML.includes(",")) {
+    return;
+  } else {
+    display.innerHTML += ",";
+  }
 }
