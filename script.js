@@ -105,9 +105,14 @@ function operate(a, b, operator) {
       display.innerHTML = result;
       break;
     case "/":
-      result = parseInt(a) / parseInt(b);
-      clearAll();
-      display.innerHTML = result;
+      if (b != 0) {
+        result = parseInt(a) / parseInt(b);
+        clearAll();
+        display.innerHTML = result;
+      } else {
+        clearAll();
+        alert("Warning! Division by zero is not allowed!");
+      }
       break;
     default:
       break;
