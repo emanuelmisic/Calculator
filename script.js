@@ -24,7 +24,7 @@ const store = document.querySelector("#store");
 const operator = document.querySelector("#operator");
 
 let operation = "";
-let storage;
+let storage = "";
 let result;
 
 num1Btn.onclick = () => typeNumber(1);
@@ -41,9 +41,15 @@ clearBtn.onclick = () => clearAll();
 deleteBtn.onclick = () => deleteNumber(display.innerHTML);
 equalsBtn.onclick = () => operate(storage, display.innerHTML, operation);
 addBtn.onclick = () => {
-  storeValue(display.innerHTML);
-  display.innerHTML = "0";
-  setOperation("+");
+  if (storage == "") {
+    storeValue(display.innerHTML);
+    display.innerHTML = "0";
+    setOperation("+");
+  } else {
+    setOperation("+");
+    operateNext(storage, operation, display.innerHTML);
+    // addToStore(display.innerHTML);
+  }
 };
 subtractBtn.onclick = () => {
   storeValue(display.innerHTML);
@@ -71,6 +77,12 @@ function clearAll() {
   operation = "";
 }
 
+function clearScreen() {
+  display.innerHTML = "0";
+  operator.innerHTML = "";
+  store.innerHTML = "";
+}
+
 function typeNumber(num) {
   if (display.innerHTML === "0") {
     display.innerHTML = "";
@@ -83,6 +95,12 @@ function storeValue(value) {
   store.innerHTML = value;
 }
 
+function addToStore(value) {
+  const newStorage = parseFloat(storage) + parseFloat(value);
+  storage = newStorage;
+  store.innerHTML = newStorage;
+}
+
 function setOperation(value) {
   operation = `${value}`;
   operator.innerHTML = value;
@@ -92,24 +110,56 @@ function operate(a, b, operator) {
   switch (operator) {
     case "+":
       result = parseFloat(a) + parseFloat(b);
-      clearAll();
+      clearScreen();
       display.innerHTML = result;
       break;
     case "-":
       result = parseFloat(a) - parseFloat(b);
-      clearAll();
+      clearScreen();
       display.innerHTML = result;
       break;
     case "*":
       result = parseFloat(a) * parseFloat(b);
-      clearAll();
+      clearScreen();
       display.innerHTML = result;
       break;
     case "/":
       if (b != 0) {
         result = parseFloat(a) / parseFloat(b);
-        clearAll();
+        clearScreen();
         display.innerHTML = result;
+      } else {
+        clearAll();
+        alert("Warning! Division by zero is not allowed!");
+      }
+      break;
+    default:
+      break;
+  }
+}
+
+function operateNext(storage, operator, mainDisplay) {
+  switch (operator) {
+    case "+":
+      result = parseFloat(mainDisplay) + parseFloat(storage);
+      display.innerHTML = "0";
+      storeValue(result);
+      break;
+    case "-":
+      result = parseFloat(a) - parseFloat(b);
+      display.innerHTML = "0";
+      storeValue(result);
+      break;
+    case "*":
+      result = parseFloat(a) * parseFloat(b);
+      display.innerHTML = "0";
+      storeValue(result);
+      break;
+    case "/":
+      if (b != 0) {
+        result = parseFloat(a) / parseFloat(b);
+        display.innerHTML = "0";
+        storeValue(result);
       } else {
         clearAll();
         alert("Warning! Division by zero is not allowed!");
