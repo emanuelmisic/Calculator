@@ -45,26 +45,44 @@ addBtn.onclick = () => {
     storeValue(display.innerHTML);
     display.innerHTML = "0";
     setOperation("+");
-  } else {
-    setOperation("+");
+  } else if (storage != "" && operation == "+") {
     operateNext(storage, operation, display.innerHTML);
-    // addToStore(display.innerHTML);
+  } else if (storage != "" && operation != "+") {
+    operateNext(storage, operation, display.innerHTML);
+    setOperation("+");
   }
 };
 subtractBtn.onclick = () => {
-  storeValue(display.innerHTML);
-  display.innerHTML = "0";
-  setOperation("-");
+  if (storage == "") {
+    storeValue(display.innerHTML);
+    display.innerHTML = "0";
+    setOperation("-");
+  } else if (storage != "" && operation == "-") {
+    operateNext(storage, operation, display.innerHTML);
+  } else if (storage != "" && operation != "-") {
+    operateNext(storage, operation, display.innerHTML);
+    setOperation("-");
+  }
 };
 divideBtn.onclick = () => {
-  storeValue(display.innerHTML);
-  display.innerHTML = "0";
-  setOperation("/");
+  if (storage == "") {
+    storeValue(display.innerHTML);
+    display.innerHTML = "0";
+    setOperation("/");
+  } else {
+    setOperation("/");
+    operateNext(storage, operation, display.innerHTML);
+  }
 };
 multiplyBtn.onclick = () => {
-  storeValue(display.innerHTML);
-  display.innerHTML = "0";
-  setOperation("*");
+  if (storage == "") {
+    storeValue(display.innerHTML);
+    display.innerHTML = "0";
+    setOperation("*");
+  } else {
+    setOperation("*");
+    operateNext(storage, operation, display.innerHTML);
+  }
 };
 negativeBtn.onclick = () => negateNumber(display.innerHTML);
 squareBtn.onclick = () => squareNumber(display.innerHTML);
@@ -75,6 +93,7 @@ function clearAll() {
   operator.innerHTML = "";
   store.innerHTML = "";
   operation = "";
+  storage = "";
 }
 
 function clearScreen() {
@@ -93,12 +112,6 @@ function typeNumber(num) {
 function storeValue(value) {
   storage = value;
   store.innerHTML = value;
-}
-
-function addToStore(value) {
-  const newStorage = parseFloat(storage) + parseFloat(value);
-  storage = newStorage;
-  store.innerHTML = newStorage;
 }
 
 function setOperation(value) {
@@ -141,23 +154,23 @@ function operate(a, b, operator) {
 function operateNext(storage, operator, mainDisplay) {
   switch (operator) {
     case "+":
-      result = parseFloat(mainDisplay) + parseFloat(storage);
+      result = parseFloat(storage) + parseFloat(mainDisplay);
       display.innerHTML = "0";
       storeValue(result);
       break;
     case "-":
-      result = parseFloat(a) - parseFloat(b);
+      result = parseFloat(storage) - parseFloat(mainDisplay);
       display.innerHTML = "0";
       storeValue(result);
       break;
     case "*":
-      result = parseFloat(a) * parseFloat(b);
+      result = parseFloat(storage) * parseFloat(mainDisplay);
       display.innerHTML = "0";
       storeValue(result);
       break;
     case "/":
-      if (b != 0) {
-        result = parseFloat(a) / parseFloat(b);
+      if (mainDisplay != 0) {
+        result = parseFloat(storage) / parseFloat(mainDisplay);
         display.innerHTML = "0";
         storeValue(result);
       } else {
