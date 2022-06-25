@@ -40,6 +40,7 @@ num0Btn.onclick = () => typeNumber(0);
 clearBtn.onclick = () => clearAll();
 deleteBtn.onclick = () => deleteNumber(display.innerHTML);
 equalsBtn.onclick = () => operate(storage, display.innerHTML, operation);
+
 addBtn.onclick = () => {
   if (storage == "") {
     storeValue(display.innerHTML);
@@ -69,9 +70,11 @@ divideBtn.onclick = () => {
     storeValue(display.innerHTML);
     display.innerHTML = "0";
     setOperation("/");
-  } else {
-    setOperation("/");
+  } else if (storage != "" && operation == "/") {
     operateNext(storage, operation, display.innerHTML);
+  } else if (storage != "" && operation != "/") {
+    operateNext(storage, operation, display.innerHTML);
+    setOperation("/");
   }
 };
 multiplyBtn.onclick = () => {
@@ -79,9 +82,11 @@ multiplyBtn.onclick = () => {
     storeValue(display.innerHTML);
     display.innerHTML = "0";
     setOperation("*");
-  } else {
-    setOperation("*");
+  } else if (storage != "" && operation == "*") {
     operateNext(storage, operation, display.innerHTML);
+  } else if (storage != "" && operation != "*") {
+    operateNext(storage, operation, display.innerHTML);
+    setOperation("*");
   }
 };
 negativeBtn.onclick = () => negateNumber(display.innerHTML);
