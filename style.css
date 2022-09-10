@@ -1,70 +1,49 @@
+@import url("https://fonts.googleapis.com/css2?family=Poppins&display=swap");
 body {
   margin: 0;
-  display: -webkit-box;
-  display: -ms-flexbox;
   display: flex;
-  -webkit-box-pack: center;
-      -ms-flex-pack: center;
-          justify-content: center;
-  -webkit-box-align: center;
-      -ms-flex-align: center;
-          align-items: center;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
   background-color: #ebebeb;
 }
 
 .calculator {
-  display: -webkit-box;
-  display: -ms-flexbox;
   display: flex;
-  -webkit-box-orient: vertical;
-  -webkit-box-direction: normal;
-      -ms-flex-direction: column;
-          flex-direction: column;
+  flex-direction: column;
   border: 5px outset #242424;
   background-color: #313131;
   border-radius: 5%;
-  margin-top: 10em;
+  margin-top: 8em;
   width: 26em;
   height: 41em;
 }
 
 #screen {
-  display: -webkit-box;
-  display: -ms-flexbox;
   display: flex;
-  -webkit-box-orient: vertical;
-  -webkit-box-direction: normal;
-      -ms-flex-direction: column;
-          flex-direction: column;
-  -ms-flex-pack: distribute;
-      justify-content: space-around;
+  flex-direction: column;
+  justify-content: space-around;
   margin: 2em auto;
   border: 8px inset #4e4d53;
   width: 22em;
   height: 7em;
   background-color: #a8a8a8;
 }
-
 #screen p {
   font-size: 2rem;
   margin: -1em 0.5em -1em auto;
   font-family: monospace;
 }
-
 #screen #store {
   color: #696969;
 }
-
 #screen #operator {
   color: #696969;
 }
 
 #buttons {
-  display: -webkit-box;
-  display: -ms-flexbox;
   display: flex;
-  -ms-flex-wrap: wrap;
-      flex-wrap: wrap;
+  flex-wrap: wrap;
   border: 1px solid black;
   margin: 0.5em 2em 2em 2em;
 }
@@ -85,4 +64,18 @@ body {
   background-color: #3d3d3d;
   color: white;
 }
-/*# sourceMappingURL=style.css.map */
+
+footer {
+  margin-top: 3em;
+  display: flex;
+  text-align: center;
+}
+footer div {
+  font-family: "Poppins", sans-serif;
+  font-size: 1.2rem;
+  font-weight: bold;
+}
+footer div a {
+  text-decoration: none;
+  color: rgb(27, 27, 104);
+}/*# sourceMappingURL=style.css.map */
