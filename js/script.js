@@ -1,218 +1,270 @@
-const squareBtn = document.querySelector('#square');
-const negativeBtn = document.querySelector('#negative');
-const divideBtn = document.querySelector('#divide');
-const clearBtn = document.querySelector('#clear');
-const num7Btn = document.querySelector('#num7');
-const num8Btn = document.querySelector('#num8');
-const num9Btn = document.querySelector('#num9');
-const multiplyBtn = document.querySelector('#multiply');
-const num4Btn = document.querySelector('#num4');
-const num5Btn = document.querySelector('#num5');
-const num6Btn = document.querySelector('#num6');
-const subtractBtn = document.querySelector('#subtract');
-const num1Btn = document.querySelector('#num1');
-const num2Btn = document.querySelector('#num2');
-const num3Btn = document.querySelector('#num3');
-const addBtn = document.querySelector('#add');
-const deleteBtn = document.querySelector('#delete');
-const num0Btn = document.querySelector('#num0');
-const commaBtn = document.querySelector('#comma');
-const equalsBtn = document.querySelector('#equals');
+main();
 
-const display = document.querySelector('#display');
-const store = document.querySelector('#store');
-const operator = document.querySelector('#operator');
+function main() {
+  const screenElements = initScreenElements();
+  const functions = initFunctions(screenElements);
+  const buttonSet = initButtons(functions);
 
-let operation = '';
-let storage = '';
-let result;
+  let operation = "";
+  let storage = "";
+  let result;
 
-num1Btn.onclick = () => typeNumber(1);
-num2Btn.onclick = () => typeNumber(2);
-num3Btn.onclick = () => typeNumber(3);
-num4Btn.onclick = () => typeNumber(4);
-num5Btn.onclick = () => typeNumber(5);
-num6Btn.onclick = () => typeNumber(6);
-num7Btn.onclick = () => typeNumber(7);
-num8Btn.onclick = () => typeNumber(8);
-num9Btn.onclick = () => typeNumber(9);
-num0Btn.onclick = () => typeNumber(0);
-clearBtn.onclick = () => clearAll();
-deleteBtn.onclick = () => deleteNumber(display.innerHTML);
-equalsBtn.onclick = () => operate(storage, display.innerHTML, operation);
+  initActionButtons(
+    buttonSet,
+    functions,
+    operation,
+    storage,
+    screenElements.display
+  );
 
-addBtn.onclick = () => {
-  if (storage == '') {
-    storeValue(display.innerHTML);
-    display.innerHTML = '0';
-    setOperation('+');
-  } else if (storage != '' && operation == '+') {
-    operateNext(storage, operation, display.innerHTML);
-  } else if (storage != '' && operation != '+') {
-    operateNext(storage, operation, display.innerHTML);
-    setOperation('+');
-  }
-};
-subtractBtn.onclick = () => {
-  if (storage == '') {
-    storeValue(display.innerHTML);
-    display.innerHTML = '0';
-    setOperation('-');
-  } else if (storage != '' && operation == '-') {
-    operateNext(storage, operation, display.innerHTML);
-  } else if (storage != '' && operation != '-') {
-    operateNext(storage, operation, display.innerHTML);
-    setOperation('-');
-  }
-};
-divideBtn.onclick = () => {
-  if (storage == '') {
-    storeValue(display.innerHTML);
-    display.innerHTML = '0';
-    setOperation('/');
-  } else if (storage != '' && operation == '/') {
-    operateNext(storage, operation, display.innerHTML);
-  } else if (storage != '' && operation != '/') {
-    operateNext(storage, operation, display.innerHTML);
-    setOperation('/');
-  }
-};
-multiplyBtn.onclick = () => {
-  if (storage == '') {
-    storeValue(display.innerHTML);
-    display.innerHTML = '0';
-    setOperation('*');
-  } else if (storage != '' && operation == '*') {
-    operateNext(storage, operation, display.innerHTML);
-  } else if (storage != '' && operation != '*') {
-    operateNext(storage, operation, display.innerHTML);
-    setOperation('*');
-  }
-};
-negativeBtn.onclick = () => negateNumber(display.innerHTML);
-squareBtn.onclick = () => squareNumber(display.innerHTML);
-commaBtn.onclick = () => addComma();
-
-function clearAll() {
-  display.innerHTML = '0';
-  operator.innerHTML = '';
-  store.innerHTML = '';
-  operation = '';
-  storage = '';
+  buttonSet.clearBtn.onclick = () => functions.clearAll();
+  buttonSet.deleteBtn.onclick = () =>
+    functions.deleteNumber(screenElements.display.innerHTML);
+  buttonSet.equalsBtn.onclick = () =>
+    functions.operate(storage, screenElements.display.innerHTML, operation);
+  buttonSet.negativeBtn.onclick = () =>
+    functions.negateNumber(screenElements.display.innerHTML);
+  buttonSet.squareBtn.onclick = () =>
+    functions.squareNumber(screenElements.display.innerHTML);
+  buttonSet.commaBtn.onclick = () => functions.addComma();
 }
 
-function clearScreen() {
-  display.innerHTML = '0';
-  operator.innerHTML = '';
-  store.innerHTML = '';
-}
+function initButtons(functions) {
+  const squareBtn = document.querySelector("#square");
+  const negativeBtn = document.querySelector("#negative");
+  const divideBtn = document.querySelector("#divide");
+  const clearBtn = document.querySelector("#clear");
+  const multiplyBtn = document.querySelector("#multiply");
+  const subtractBtn = document.querySelector("#subtract");
+  const addBtn = document.querySelector("#add");
+  const deleteBtn = document.querySelector("#delete");
+  const commaBtn = document.querySelector("#comma");
+  const equalsBtn = document.querySelector("#equals");
 
-function typeNumber(num) {
-  if (display.innerHTML === '0') {
-    display.innerHTML = '';
+  for (let i = 0; i <= 9; i++) {
+    const button = document.querySelector(`#num${i}`);
+    button.addEventListener("click", () => {
+      functions.typeNumber(i);
+    });
   }
-  display.innerHTML += num;
+
+  return {
+    squareBtn,
+    negativeBtn,
+    divideBtn,
+    clearBtn,
+    multiplyBtn,
+    subtractBtn,
+    addBtn,
+    deleteBtn,
+    commaBtn,
+    equalsBtn,
+  };
 }
 
-function storeValue(value) {
-  storage = value;
-  store.innerHTML = value;
+function initScreenElements() {
+  const display = document.querySelector("#display");
+  const store = document.querySelector("#store");
+  const operator = document.querySelector("#operator");
+
+  display.innerHTML = "0";
+  store.innerHTML = "";
+  operator.innerHTML = "";
+
+  return { display, store, operator };
 }
 
-function setOperation(value) {
-  operation = `${value}`;
-  operator.innerHTML = value;
+// NEXT TO IMPLEMENT in script2.js
+function initActionButtons(buttonSet, functions, operation, storage, display) {
+  buttonSet.addBtn.onclick = () => {
+    if (storage == "") {
+      functions.storeValue(display.innerHTML);
+      display.innerHTML = "0";
+      functions.setOperation("+");
+    } else if (storage != "" && operation == "+") {
+      functions.operateNext(storage, operation, display.innerHTML);
+    } else if (storage != "" && operation != "+") {
+      functions.operateNext(storage, operation, display.innerHTML);
+      functions.setOperation("+");
+    }
+  };
+
+  buttonSet.subtractBtn.onclick = () => {
+    if (storage == "") {
+      functions.storeValue(display.innerHTML);
+      display.innerHTML = "0";
+      functions.setOperation("-");
+    } else if (storage != "" && operation == "-") {
+      functions.operateNext(storage, operation, display.innerHTML);
+    } else if (storage != "" && operation != "-") {
+      functions.operateNext(storage, operation, display.innerHTML);
+      functions.setOperation("-");
+    }
+  };
+
+  buttonSet.divideBtn.onclick = () => {
+    if (storage == "") {
+      functions.storeValue(display.innerHTML);
+      display.innerHTML = "0";
+      functions.setOperation("/");
+    } else if (storage != "" && operation == "/") {
+      functions.operateNext(storage, operation, display.innerHTML);
+    } else if (storage != "" && operation != "/") {
+      functions.operateNext(storage, operation, display.innerHTML);
+      functions.setOperation("/");
+    }
+  };
+
+  buttonSet.multiplyBtn.onclick = () => {
+    if (storage == "") {
+      functions.storeValue(display.innerHTML);
+      display.innerHTML = "0";
+      functions.setOperation("*");
+    } else if (storage != "" && operation == "*") {
+      functions.operateNext(storage, operation, display.innerHTML);
+    } else if (storage != "" && operation != "*") {
+      functions.operateNext(storage, operation, display.innerHTML);
+      functions.setOperation("*");
+    }
+  };
 }
 
-function operate(a, b, operator) {
-  switch (operator) {
-    case '+':
-      result = parseFloat(a) + parseFloat(b);
-      clearScreen();
-      display.innerHTML = result;
-      storage = '';
-      break;
-    case '-':
-      result = parseFloat(a) - parseFloat(b);
-      clearScreen();
-      display.innerHTML = result;
-      storage = '';
-      break;
-    case '*':
-      result = parseFloat(a) * parseFloat(b);
-      clearScreen();
-      display.innerHTML = result;
-      storage = '';
-      break;
-    case '/':
-      if (b != 0) {
-        result = parseFloat(a) / parseFloat(b);
+function initFunctions(screenElements) {
+  function clearAll() {
+    screenElements.display.innerHTML = "0";
+    screenElements.operator.innerHTML = "";
+    store.innerHTML = "";
+    operation = "";
+    storage = "";
+  }
+
+  function clearScreen() {
+    screenElements.display.innerHTML = "0";
+    screenElements.operator.innerHTML = "";
+    store.innerHTML = "";
+  }
+
+  function typeNumber(num) {
+    if (screenElements.display.innerHTML === "0") {
+      screenElements.display.innerHTML = "";
+    }
+    screenElements.display.innerHTML += num;
+  }
+
+  function storeValue(value) {
+    storage = value;
+    store.innerHTML = value;
+  }
+
+  function setOperation(value) {
+    operation = `${value}`;
+    screenElements.operator.innerHTML = value;
+  }
+
+  function operate(a, b, operator) {
+    switch (operator) {
+      case "+":
+        result = parseFloat(a) + parseFloat(b);
         clearScreen();
         display.innerHTML = result;
-        storage = '';
-      } else {
-        clearAll();
-        alert('Warning! Division by zero is not allowed!');
-      }
-      break;
-    default:
-      break;
+        storage = "";
+        break;
+      case "-":
+        result = parseFloat(a) - parseFloat(b);
+        clearScreen();
+        display.innerHTML = result;
+        storage = "";
+        break;
+      case "*":
+        result = parseFloat(a) * parseFloat(b);
+        clearScreen();
+        display.innerHTML = result;
+        storage = "";
+        break;
+      case "/":
+        if (b != 0) {
+          result = parseFloat(a) / parseFloat(b);
+          clearScreen();
+          display.innerHTML = result;
+          storage = "";
+        } else {
+          clearAll();
+          alert("Warning! Division by zero is not allowed!");
+        }
+        break;
+      default:
+        break;
+    }
   }
-}
 
-function operateNext(storage, operator, mainDisplay) {
-  switch (operator) {
-    case '+':
-      result = parseFloat(storage) + parseFloat(mainDisplay);
-      display.innerHTML = '0';
-      storeValue(result);
-      break;
-    case '-':
-      result = parseFloat(storage) - parseFloat(mainDisplay);
-      display.innerHTML = '0';
-      storeValue(result);
-      break;
-    case '*':
-      result = parseFloat(storage) * parseFloat(mainDisplay);
-      display.innerHTML = '0';
-      storeValue(result);
-      break;
-    case '/':
-      if (mainDisplay != 0) {
-        result = parseFloat(storage) / parseFloat(mainDisplay);
-        display.innerHTML = '0';
+  function operateNext(storage, operator, mainDisplay) {
+    switch (operator) {
+      case "+":
+        result = parseFloat(storage) + parseFloat(mainDisplay);
+        display.innerHTML = "0";
         storeValue(result);
-      } else {
-        clearAll();
-        alert('Warning! Division by zero is not allowed!');
-      }
-      break;
-    default:
-      break;
+        break;
+      case "-":
+        result = parseFloat(storage) - parseFloat(mainDisplay);
+        display.innerHTML = "0";
+        storeValue(result);
+        break;
+      case "*":
+        result = parseFloat(storage) * parseFloat(mainDisplay);
+        display.innerHTML = "0";
+        storeValue(result);
+        break;
+      case "/":
+        if (mainDisplay != 0) {
+          result = parseFloat(storage) / parseFloat(mainDisplay);
+          display.innerHTML = "0";
+          storeValue(result);
+        } else {
+          clearAll();
+          alert("Warning! Division by zero is not allowed!");
+        }
+        break;
+      default:
+        break;
+    }
   }
-}
 
-function negateNumber(value) {
-  display.innerHTML = value * -1;
-}
-
-function deleteNumber(value) {
-  if (display.innerHTML == '0') return;
-  else if (display.innerHTML.length == 1 && display.innerHTML != '0')
-    display.innerHTML = '0';
-  else display.innerHTML = value.slice(0, value.length - 1);
-}
-
-function squareNumber(value) {
-  display.innerHTML = parseInt(value * value);
-}
-
-function addComma() {
-  if (display.innerHTML == 0) {
-    display.innerHTML = '0.';
-  } else if (display.innerHTML.includes('.')) {
-    return;
-  } else {
-    display.innerHTML += '.';
+  function negateNumber(value) {
+    display.innerHTML = value * -1;
   }
+
+  function deleteNumber(value) {
+    if (display.innerHTML == "0") return;
+    else if (display.innerHTML.length == 1 && display.innerHTML != "0")
+      display.innerHTML = "0";
+    else display.innerHTML = value.slice(0, value.length - 1);
+  }
+
+  function squareNumber(value) {
+    display.innerHTML = parseInt(value * value);
+  }
+
+  function addComma() {
+    if (display.innerHTML == 0) {
+      display.innerHTML = "0.";
+    } else if (display.innerHTML.includes(".")) {
+      return;
+    } else {
+      display.innerHTML += ".";
+    }
+  }
+
+  return {
+    clearAll,
+    clearScreen,
+    typeNumber,
+    storeValue,
+    setOperation,
+    operate,
+    operateNext,
+    negateNumber,
+    deleteNumber,
+    squareNumber,
+    addComma,
+  };
 }
