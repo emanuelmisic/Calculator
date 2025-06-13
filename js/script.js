@@ -1,5 +1,10 @@
 let currentOperation = "";
 let storage = "";
+let history = {
+  number: "",
+  prevResult: "",
+  operator: "",
+};
 main();
 
 function main() {
@@ -13,6 +18,7 @@ function clearAll() {
   setOperator("");
   currentOperation = "";
   storage = "";
+  clearHistory();
 }
 
 function clearScreen() {
@@ -32,13 +38,15 @@ function initButtons() {
   _getElement("delete").onclick = () => deleteNumber(getDisplayContent());
   _getElement("comma").onclick = () => addComma();
   _getElement("equals").onclick = () => {
-    operate(storage, getDisplayContent(), currentOperation);
+    if (getHistory()) {
+      operate(history.prevResult, history.number, history.operator);
+    } else {
+      operate(storage, getDisplayContent(), currentOperation);
+    }
   };
 
   for (let i = 0; i <= 9; i++) {
-    getNumberButton(i).addEventListener("click", () => {
-      typeNumber(i);
-    });
+    getNumberButton(i).onclick = () => typeNumber(i);
   }
 }
 
@@ -47,18 +55,19 @@ function getNumberButton(number) {
 }
 
 function squareNumber(value) {
+  if (_isDisplayInfinity()) return;
   const number = parseFloat(value);
-  if (isNaN(number)) return;
   setDisplay((number * number).toString());
 }
 
 function negateNumber(value) {
+  if (_isDisplayInfinity()) return;
   const number = parseFloat(value);
-  if (isNaN(number)) return;
   setDisplay((-number).toString());
 }
 
 function deleteNumber(value) {
+  if (_isDisplayInfinity()) return;
   if (value.length <= 1) {
     setDisplay("0");
     return;
@@ -67,11 +76,13 @@ function deleteNumber(value) {
 }
 
 function addComma() {
+  if (_isDisplayInfinity()) return;
   const displayContent = getDisplayContent();
   if (!displayContent.includes(".")) addToDisplay(".");
 }
 
 function operate(a, b, operator) {
+  if (_isDisplayInfinity()) return;
   switch (operator) {
     case "+":
     case "-":
@@ -79,16 +90,14 @@ function operate(a, b, operator) {
       _performOperationAndUpdateDisplay(a, b, operator);
       break;
     case "/":
-      if (b == 0) {
-        clearAll();
-        alert("Warning! Division by zero is not allowed!");
-      }
+      if (b == 0) return;
       _performOperationAndUpdateDisplay(a, b, operator);
       break;
   }
 }
 
 function typeNumber(number) {
+  if (_isDisplayInfinity()) return;
   if (getDisplayContent() === "0") {
     setDisplay(number.toString());
     return;
@@ -97,10 +106,12 @@ function typeNumber(number) {
 }
 
 function handleOperation(operator) {
+  clearHistory();
+  if (_isDisplayInfinity()) return;
   if (!storage) {
     storeValue(getDisplayContent());
-    setDisplay("0");
     setOperation(operator);
+    setDisplay("0");
   } else if (storage && currentOperation == operator) {
     operateNext(storage, currentOperation, getDisplayContent());
   } else if (storage && currentOperation != operator) {
@@ -117,10 +128,7 @@ function operateNext(a, b, operator) {
       _performOperationAndStoreValue(a, b, operator);
       break;
     case "/":
-      if (b === 0) {
-        clearAll();
-        alert("Warning! Division by zero is not allowed!");
-      }
+      if (b === 0) return;
       _performOperationAndStoreValue(a, b, operator);
       break;
   }
@@ -142,7 +150,7 @@ function getDisplayContent() {
 
 function setDisplay(value) {
   const displayElement = _getElement("display");
-  if (displayElement.textContent.length > 24) return;
+  if (value.toString().length > 24) return;
   displayElement.innerHTML = value;
   displayElement.style = `font-size: ${
     displayElement.textContent.length > 16 ? "1.6rem" : "2rem"
@@ -159,11 +167,29 @@ function addToDisplay(value) {
 }
 
 function setStore(value) {
-  _getElement("store").innerHTML = value;
+  const storeElement = _getElement("store");
+  storeElement.innerHTML = value;
+  storeElement.style = `font-size: ${
+    storeElement.textContent.length > 16 ? "1.6rem" : "2rem"
+  }`;
 }
 
 function setOperator(value) {
   _getElement("operator").innerHTML = value;
+}
+
+function getHistory() {
+  if (history.number && history.prevResult && history.operator) {
+    return history;
+  }
+}
+
+function clearHistory() {
+  history = {
+    number: "",
+    prevResult: "",
+    operator: "",
+  };
 }
 
 function _performOperationAndUpdateDisplay(a, b, operator) {
@@ -185,6 +211,11 @@ function _performOperationAndUpdateDisplay(a, b, operator) {
   clearScreen();
   setDisplay(result.toString());
   storage = "";
+  history = {
+    number: b.toString(),
+    prevResult: result.toString(),
+    operator: operator,
+  };
 }
 
 function _performOperationAndStoreValue(a, b, operator) {
@@ -209,4 +240,8 @@ function _performOperationAndStoreValue(a, b, operator) {
 
 function _getElement(name) {
   return document.querySelector(`#${name}`);
+}
+
+function _isDisplayInfinity() {
+  return getDisplayContent() === "Infinity";
 }
