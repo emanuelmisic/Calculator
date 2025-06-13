@@ -1,4 +1,3 @@
 # Calculator
-## A small JS project
+### This is JS calculator made using functional programming technique
 
-- Can't compute large numbers
